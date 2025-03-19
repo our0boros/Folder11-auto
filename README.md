@@ -1,5 +1,121 @@
 # Folder11-auto
 
+## ⚠️⚠️⚠️ Please note: This project is incomplete and may cause irreversible consequences on files. Please do not run it casually ⚠️⚠️⚠️
+
+`Folder11-auto` is an automation script written in Go, designed to automatically set custom icons for Windows folders. The tool uses `desktop.ini` files to specify the icon for each folder and can recursively traverse folders to automatically assign the best matching icon.
+
+## Features
+
+- Automatically assigns icons to folders, with recursive support for subfolder icons.
+- Supports icon resources from a GitHub submodule or website scraping.
+- Customizable icon directory and recursion depth.
+- Uses fuzzy matching between folder names and icon names to assign the most suitable icon.
+- Supports custom tokenization rules and keyword weight configuration files.
+
+## Installation
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/your-repo/Folder11-auto.git
+cd Folder11-auto
+git submodule update --init --recursive
+```
+
+### 2. Install dependencies
+
+Make sure you have the Go environment installed, then run the following command to install the project dependencies:
+
+```bash
+go mod tidy
+```
+
+### 3. Build the project
+
+```bash
+go build -o Folder11-auto.exe
+```
+
+## Usage
+
+### 1. Run the script
+
+Run `Folder11-auto.exe` to set custom icons for the specified folder. You can use the following command-line arguments:
+
+```
+Usage: Folder11-auto.exe [options] [folderPath]
+Options:
+  -f, --folder        Specify the target folder path
+  -r, --recursive     Set the recursion depth (default: 3)
+  -s, --source        Specify the icon source ("Folder11-Ico" or "website")
+  -i, --icon-dir      Specify the icon directory (default: "./Folder11-Ico/ico")
+  -h, --help          Display help information
+```
+
+#### Examples:
+
+1.  Set a custom icon for the target folder `E:\your_folder` with a recursion depth of 4, and icon source as `Folder11-Ico`:
+
+```bash
+Folder11-auto.exe -f E:\your_folder -r 4 -s Folder11-Ico
+```
+
+1.  Set an icon for the folder by scraping icons from a website:
+
+```bash
+Folder11-auto.exe -f E:\your_folder -r 4 -s website
+```
+
+### 2. Argument explanation
+
+-   `-f, --folder`: Specifies the target folder path (required).
+
+-   `-r, --recursive`: Sets the recursion depth, with the default value being 3. It determines the maximum depth for recursive subfolder processing.
+
+-   ```
+    -s, --source
+    ```
+
+    : The source of icons, with two possible values:
+
+    -   `Folder11-Ico`: Get icons from the project submodule's icon folder.
+    -   `website`: Scrape icons from a specified website (this feature requires a web scraper).
+
+-   `-i, --icon-dir`: Specifies the icon directory path, default is `./Folder11-Ico/ico`.
+
+### 3. Icon matching
+
+The script will use folder names (tokenized by spaces, underscores, hyphens, etc.) and match them with icon file names. The system will select the best matching icon, prioritizing those with longer names and smaller edit distances.
+
+### 4. `desktop.ini` Configuration
+
+The script modifies the `desktop.ini` file to set the folder icon. Make sure that the target folder contains a `desktop.ini` file with the correct icon file path. For example:
+
+```ini
+[.ShellClassInfo]
+IconFile=C:\path\to\icon.ico
+IconIndex=0
+Attributes=2
+```
+
+### 5. Set `desktop.ini` as a system file
+
+For the folder icon to take effect, make sure that the `desktop.ini` file is marked as a system and hidden file. You can do this using the following command:
+
+```bash
+attrib +s +h "E:\your_folder\desktop.ini"
+```
+
+## Contributing
+
+Feel free to raise issues and submit pull requests!
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](https://chatgpt.com/c/LICENSE) file for details.
+
+
+
 ## ⚠️⚠️⚠️请注意，当前项目并未完成且可能对文件造成不可恢复的后果，请勿随意运行⚠️⚠️⚠️
 
 `Folder11-auto` 是一个用 Go 编写的自动化脚本，旨在为 Windows 文件夹自动设置自定义图标。该工具使用 `desktop.ini` 文件来指定每个文件夹的图标，可以支持递归地遍历文件夹并自动为文件夹分配最匹配的图标。
@@ -112,17 +228,5 @@ attrib +s +h "E:\your_folder\desktop.ini"
 
 ## 许可证
 
-本项目采用 MIT 许可证，详见 [LICENSE](https://chatgpt.com/c/LICENSE) 文件。
+本项目采用 MIT 许可证，详见  [LICENSE](LICENSE)  文件。
 
-```
----
-
-### **说明：**
-
-- **功能特性部分**：概述了该项目的主要功能，包括递归设置图标、支持不同的图标来源等。
-- **安装和使用说明**：详细描述了如何安装、构建和使用项目，如何配置参数，以及如何执行脚本。
-- **图标匹配和 `desktop.ini` 配置**：解释了如何进行图标的匹配和配置 `desktop.ini` 文件。
-- **贡献和许可证**：标准的贡献和许可证部分，方便他人了解如何参与项目。
-
-你可以根据实际需求进行调整和补充，特别是在图标来源的具体实现和项目贡献部分。
-```
